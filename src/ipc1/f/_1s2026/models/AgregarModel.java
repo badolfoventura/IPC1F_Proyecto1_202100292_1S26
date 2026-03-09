@@ -12,7 +12,7 @@ public class AgregarModel {
     private String categoria;
     private int precio;
     private int cantidad;
-    private int codigoU;
+    private int codigo;
 
     public String getNombre() {
         return nombre;
@@ -46,12 +46,12 @@ public class AgregarModel {
         this.cantidad = cantidad;
     }
 
-    public int getCodigoU() {
-        return codigoU;
+    public int getCodigo() {
+        return codigo;
     }
 
-    public void setCodigoU(int codigoU) {
-        this.codigoU = codigoU;
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
     
     

@@ -1,10 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package ipc1.f._1s2026.views;
 
 import ipc1.f._1s2026.controllers.AgregarController;
+import java.io.IOException;
 
 /**
  *
@@ -17,6 +15,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
     VistaAgregar vAgregar = new VistaAgregar();
     
     AgregarController verController = new AgregarController();
+    
+    VistaDatosE vDatosE = new VistaDatosE();
+    
     
     public VistaPrincipal() {
         initComponents();
@@ -36,13 +37,15 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btmBuscar = new javax.swing.JButton();
         btmEliminar = new javax.swing.JButton();
         btmRegistrar = new javax.swing.JButton();
-        btmGenerarR = new javax.swing.JButton();
+        btmGenerarStock = new javax.swing.JButton();
         btmDatosES = new javax.swing.JButton();
         btmSalir = new javax.swing.JButton();
         btmVer = new javax.swing.JButton();
+        btmGenerarVentas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         jLabel1.setText("Menu Principal");
 
         btmAgregar.setText("Agregar Producto");
@@ -55,37 +58,45 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         btmRegistrar.setText("Registrar Venta");
 
-        btmGenerarR.setText("Generar Reporte");
+        btmGenerarStock.setText("Generar Reporte Stock");
+        btmGenerarStock.addActionListener(this::btmGenerarStockActionPerformed);
 
         btmDatosES.setText("Ver Datos Estudiante");
+        btmDatosES.addActionListener(this::btmDatosESActionPerformed);
 
         btmSalir.setText("SALIR");
+        btmSalir.addActionListener(this::btmSalirActionPerformed);
 
         btmVer.setText("VER");
         btmVer.addActionListener(this::btmVerActionPerformed);
+
+        btmGenerarVentas.setText("Generar Reporte Ventas");
+        btmGenerarVentas.addActionListener(this::btmGenerarVentasActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(249, 249, 249)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btmSalir)
-                            .addComponent(btmDatosES, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btmGenerarR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btmRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btmEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btmBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btmAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(61, 61, 61)
-                        .addComponent(btmVer)))
-                .addContainerGap(192, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btmSalir)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(249, 249, 249)
+                            .addComponent(jLabel1))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(122, 122, 122)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btmDatosES, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btmGenerarStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btmRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btmEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btmBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btmAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btmGenerarVentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGap(61, 61, 61)
+                            .addComponent(btmVer))))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,12 +114,14 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btmRegistrar)
                 .addGap(18, 18, 18)
-                .addComponent(btmGenerarR)
+                .addComponent(btmGenerarStock)
                 .addGap(18, 18, 18)
-                .addComponent(btmDatosES)
+                .addComponent(btmGenerarVentas)
                 .addGap(18, 18, 18)
-                .addComponent(btmSalir)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btmSalir)
+                    .addComponent(btmDatosES, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         pack();
@@ -129,6 +142,27 @@ public class VistaPrincipal extends javax.swing.JFrame {
         //Para ver matriz 
         verController.verAgregar();
     }//GEN-LAST:event_btmVerActionPerformed
+
+    private void btmDatosESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmDatosESActionPerformed
+        vDatosE.setVisible(true);
+    }//GEN-LAST:event_btmDatosESActionPerformed
+
+    private void btmSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmSalirActionPerformed
+        this.setVisible(false);
+        System.exit(0);
+    }//GEN-LAST:event_btmSalirActionPerformed
+
+    private void btmGenerarStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmGenerarStockActionPerformed
+        try {
+            verController.generarHTML();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btmGenerarStockActionPerformed
+
+    private void btmGenerarVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmGenerarVentasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btmGenerarVentasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -160,7 +194,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btmBuscar;
     private javax.swing.JButton btmDatosES;
     private javax.swing.JButton btmEliminar;
-    private javax.swing.JButton btmGenerarR;
+    private javax.swing.JButton btmGenerarStock;
+    private javax.swing.JButton btmGenerarVentas;
     private javax.swing.JButton btmRegistrar;
     private javax.swing.JButton btmSalir;
     private javax.swing.JButton btmVer;

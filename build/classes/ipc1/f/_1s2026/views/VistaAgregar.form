@@ -40,7 +40,6 @@
                           <Component id="jLabel4" alignment="0" min="-2" pref="124" max="-2" attributes="0"/>
                           <Component id="txtCantidadStock" alignment="0" max="32767" attributes="0"/>
                           <Component id="jLabel5" alignment="0" min="-2" pref="124" max="-2" attributes="0"/>
-                          <Component id="txtCodigoP" alignment="0" max="32767" attributes="0"/>
                           <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -68,7 +67,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="btmAgregar" pref="45" max="32767" attributes="0"/>
+                  <Component id="btmAgregar" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="txtCategoria" min="-2" max="-2" attributes="0"/>
@@ -85,9 +84,7 @@
               <Component id="txtCantidadStock" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="txtCodigoP" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="34" max="32767" attributes="0"/>
+              <EmptySpace pref="66" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -130,11 +127,9 @@
         <Property name="text" type="java.lang.String" value="Cantidad en Stock"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtCodigoP">
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Codigo unico del producto"/>
+        <Property name="text" type="java.lang.String" value="El Codigo unico del producto se genera automaticamente."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btmAgregar">
