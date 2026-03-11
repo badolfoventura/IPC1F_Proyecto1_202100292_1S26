@@ -3,6 +3,7 @@ package ipc1.f._1s2026.views;
 
 import Singleton.SingletonID;
 import ipc1.f._1s2026.controllers.AgregarController;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,6 +27,9 @@ public class VistaAgregar extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        jDialog2 = new javax.swing.JDialog();
+        jDialog3 = new javax.swing.JDialog();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtNombreP = new javax.swing.JTextField();
@@ -38,6 +42,39 @@ public class VistaAgregar extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         btmAgregar = new javax.swing.JButton();
         btmCerrar = new javax.swing.JButton();
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
+        jDialog2.getContentPane().setLayout(jDialog2Layout);
+        jDialog2Layout.setHorizontalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog2Layout.setVerticalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jDialog3Layout = new javax.swing.GroupLayout(jDialog3.getContentPane());
+        jDialog3.getContentPane().setLayout(jDialog3Layout);
+        jDialog3Layout.setHorizontalGroup(
+            jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog3Layout.setVerticalGroup(
+            jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -131,11 +168,71 @@ public class VistaAgregar extends javax.swing.JFrame {
         //Obetenemos los datos de los textField
         String nombreNew = this.txtNombreP.getText();
         String categoriaNew = this.txtCategoria.getText();
-        int precioNew = Integer.parseInt(txtPrecio.getText());
-        int cantidadNew = Integer.parseInt(txtCantidadStock.getText());
+        int precioNew; // = Integer.parseInt(txtPrecio.getText());
+        
+        int cantidad;
+        
+        try{
+            precioNew = Integer.parseInt(txtPrecio.getText());
+            
+            if (precioNew < 0){
+                JOptionPane.showMessageDialog(
+                null,
+                "No se permiten precios negativos",
+                "Error",
+                JOptionPane.WARNING_MESSAGE);
+                txtPrecio.setText("");
+                txtPrecio.requestFocus();
+                return;
+                
+            } 
+        }catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(
+                    null,
+                    "Debe ingresar una cantidad válido",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                    );
+                    txtPrecio.setText("");
+                    txtPrecio.requestFocus();
+                    return;
+                    }
+
+        try{
+            cantidad = Integer.parseInt(txtCantidadStock.getText());
+            
+            if (cantidad < 0){
+                JOptionPane.showMessageDialog(
+                null,
+                "No se permiten valores negativos",
+                "Error",
+                JOptionPane.WARNING_MESSAGE);
+                txtCantidadStock.setText("");
+                txtCantidadStock.requestFocus();
+                return;
+                
+            } 
+        }catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(
+                    null,
+                    "Debe ingresar un número válido",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                    );
+                    txtCantidadStock.setText("");
+                    txtCantidadStock.requestFocus();
+                    return;
+                    }
+        
         int codigoNew = SingletonID.getInstancia().generarID();
         
-        addControl.AgregarProducto(nombreNew, categoriaNew, precioNew, cantidadNew, codigoNew);
+        addControl.AgregarProducto(nombreNew, categoriaNew, precioNew, cantidad, codigoNew);
+        
+        JOptionPane.showMessageDialog(null,"Producto agregado");
+        txtNombreP.setText("");
+        txtCategoria.setText("");
+        txtPrecio.setText("");
+        txtCantidadStock.setText("");
         
     }//GEN-LAST:event_btmAgregarActionPerformed
 
@@ -167,6 +264,9 @@ public class VistaAgregar extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btmAgregar;
     private javax.swing.JButton btmCerrar;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialog2;
+    private javax.swing.JDialog jDialog3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

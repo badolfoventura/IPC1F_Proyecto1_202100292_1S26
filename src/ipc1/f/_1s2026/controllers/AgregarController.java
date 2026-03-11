@@ -16,13 +16,17 @@ import java.time.format.DateTimeFormatter;
  */
 public class AgregarController {
     
+   // Advertencia advertenciaCantidad = new Advertencia();
+    
     public static AgregarModel[] datosAgregar = new AgregarModel[100];
+    
+    public static int contador = 0;
     
     public void AgregarProducto(String nombre, String categoria, int precio, int cantidad, int codigo){
         //Se anade datos al arreglo
         
-        for (int i = 0; i<datosAgregar.length; i++){
-            if (datosAgregar[i]==null){
+        //for (int i = 0; i<datosAgregar.length; i++){
+           // if (datosAgregar[i]==null){
                 AgregarModel agregar = new AgregarModel();
                 
                 agregar.setNombre(nombre);
@@ -31,13 +35,13 @@ public class AgregarController {
                 agregar.setCantidad(cantidad);
                 agregar.setCodigo(codigo);
                 
-                datosAgregar[i] = agregar;
-                
+                datosAgregar[contador] = agregar; // Este es el vecotr con los datos agregados desde la ventana agregar
+                contador++;
                 System.out.println("Se agrego "+nombre+" de "+categoria+" con precio Q."+precio+" cantidad "+cantidad+" y codigo "+codigo);
                 
                 return;
-            }
-        }
+            //}
+        //}
     
     }
     
@@ -57,6 +61,73 @@ public class AgregarController {
         
     }
     
+    public AgregarModel buscarPorCodigo(int codigo){
+
+    for(int i = 0; i < datosAgregar.length; i++){
+
+        if(datosAgregar[i] != null && datosAgregar[i].getCodigo() == codigo){
+            return datosAgregar[i];
+        }
+
+    }
+
+    return null;
+}
+    
+   /* AgregarController controller = new AgregarController();
+
+AgregarModel producto = controller.buscarPorCodigo(codigo);
+
+if(producto != null){
+
+    txtNombre.setText(producto.getNombre());
+    txtCategoria.setText(producto.getCategoria());
+    txtPrecio.setText(String.valueOf(producto.getPrecio()));
+    txtCantidad.setText(String.valueOf(producto.getCantidad()));
+
+}else{
+
+    JOptionPane.showMessageDialog(null,"Producto no encontrado");
+
+}*/
+    
+   /* public void eliminarProducto(int codigo){
+
+    for(int i = 0; i < datosAgregar.length; i++){
+
+        if(datosAgregar[i] != null && datosAgregar[i].getCodigo() == codigo){
+
+            datosAgregar[i] = null;
+            contador--;
+
+            System.out.println("Producto eliminado");
+            return;
+        }
+
+    }
+
+}*/
+    
+    public boolean eliminarProducto(int codigo){
+
+         for(int i = 0; i < contador; i++){
+
+            if(datosAgregar[i] != null && datosAgregar[i].getCodigo() == codigo){
+
+            for(int j = i; j < contador - 1; j++){
+                datosAgregar[j] = datosAgregar[j+1];
+            }
+
+            datosAgregar[contador - 1] = null;
+            contador--;
+
+            return true;
+            }
+        }
+
+        return false;
+    }
+    
     public void generarHTML() throws IOException{
         StringBuilder filas = new StringBuilder();
         
@@ -69,7 +140,7 @@ public class AgregarController {
                     .append("<td>").append(m.getCategoria()).append("</td>")
                     .append("<td>").append(m.getCantidad()).append("</td>")
                     .append("<td>").append(m.getPrecio()).append("</td>")
-                    .append("</td>");
+                    .append("</tr>");
        
         }
         

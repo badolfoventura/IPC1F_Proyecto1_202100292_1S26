@@ -8,11 +8,11 @@ package ipc1.f._1s2026.models;
  */
 public class AgregarModel {
     
-    private String nombre;
-    private String categoria;
-    private int precio;
-    private int cantidad;
-    private int codigo;
+    public String nombre;
+    public String categoria;
+    public int precio;
+    public int cantidad;
+    public int codigo;
 
     public String getNombre() {
         return nombre;

@@ -19,6 +19,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
     VistaDatosE vDatosE = new VistaDatosE();
     
     
+    
+    
     public VistaPrincipal() {
         initComponents();
     }
@@ -52,6 +54,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btmAgregar.addActionListener(this::btmAgregarActionPerformed);
 
         btmBuscar.setText("Buscar Producto");
+        btmBuscar.addActionListener(this::btmBuscarActionPerformed);
 
         btmEliminar.setText("Eliminar Producto");
         btmEliminar.addActionListener(this::btmEliminarActionPerformed);
@@ -135,7 +138,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btmAgregarActionPerformed
 
     private void btmEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmEliminarActionPerformed
-        // TODO add your handling code here:
+        VistaBorrar eliminar = new VistaBorrar();
+        eliminar.setVisible(true);
     }//GEN-LAST:event_btmEliminarActionPerformed
 
     private void btmVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmVerActionPerformed
@@ -163,6 +167,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private void btmGenerarVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmGenerarVentasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btmGenerarVentasActionPerformed
+
+    private void btmBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmBuscarActionPerformed
+       VistaBuscar buscar = new VistaBuscar();
+        buscar.setVisible(true);
+    }//GEN-LAST:event_btmBuscarActionPerformed
 
     /**
      * @param args the command line arguments
