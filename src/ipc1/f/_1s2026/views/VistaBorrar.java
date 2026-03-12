@@ -10,15 +10,16 @@ import javax.swing.JOptionPane;
  */
 public class VistaBorrar extends javax.swing.JFrame {
     
-    AgregarController controller = new AgregarController();
+    private final VistaPrincipal vistaPrincipal;
+    private final AgregarController controller = new AgregarController();
+
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaBorrar.class.getName());
-
-    /**
-     * Creates new form VistaBorrar
-     */
-    public VistaBorrar() {
+    
+    public VistaBorrar(VistaPrincipal vp) {
+        
         initComponents();
+        this.vistaPrincipal = vp;
     }
 
     /**
@@ -87,46 +88,79 @@ public class VistaBorrar extends javax.swing.JFrame {
 
     private void btmSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmSalirActionPerformed
         this.setVisible(false);
+        vistaPrincipal.setVisible(true);
     }//GEN-LAST:event_btmSalirActionPerformed
 
     private void btmBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmBorrarActionPerformed
-        int codigo = Integer.parseInt(txtCodeErase.getText());
 
-        //controller.eliminarProducto(codigo);
-        
-        boolean eliminado = controller.eliminarProducto(codigo);
+      String valor = txtCodeErase.getText().trim();
 
-        if(eliminado){
-            JOptionPane.showMessageDialog(null,"Producto eliminado");
-        }else{
-            JOptionPane.showMessageDialog(null,"Producto no encontrado");
-            }
-    }//GEN-LAST:event_btmBorrarActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        // Validamos que el campo no esté vacío
+        if(valor.isEmpty()){
+            JOptionPane.showMessageDialog(
+                null,
+                "Debe ingresar un código para borrar.",
+                "Error",
+                JOptionPane.WARNING_MESSAGE
+            );
+            txtCodeErase.requestFocus();
+            return;
         }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new VistaBorrar().setVisible(true));
-    }
+        int codigo;
+        try {
+            codigo = Integer.parseInt(valor); // Convertimos a entero
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+                null,
+                "El código debe ser un número válido.",
+                "Error",
+                JOptionPane.WARNING_MESSAGE
+            );
+            txtCodeErase.requestFocus();
+            return;
+        }
+
+        // Confirmación antes de borrar
+        int opcion = JOptionPane.showConfirmDialog(
+            null,
+            "¿Está seguro que desea eliminar el producto con código " + codigo + "?",
+            "Confirmar eliminación",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+        );
+
+        if(opcion == JOptionPane.YES_OPTION){
+            boolean eliminado = controller.eliminarProducto(codigo);
+            if(eliminado){
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Producto eliminado exitosamente.",
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+            } else {
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Producto no encontrado.",
+                    "Error",
+                    JOptionPane.WARNING_MESSAGE
+                );
+            }
+        } else {
+            // Si el usuario cancela
+            JOptionPane.showMessageDialog(
+                null,
+                "Eliminación cancelada.",
+                "Cancelado",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+
+        txtCodeErase.setText("");
+        txtCodeErase.requestFocus();      
+            
+    }//GEN-LAST:event_btmBorrarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btmBorrar;

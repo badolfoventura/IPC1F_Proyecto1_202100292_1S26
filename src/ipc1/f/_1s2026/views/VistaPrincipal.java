@@ -14,11 +14,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaPrincipal.class.getName());
     
-    //VistaAgregar vAgregar = new VistaAgregar();
-    
     AgregarController verController = new AgregarController();
     
-    VistaDatosE vDatosE = new VistaDatosE();
+    VistaDatosE vDatosE;
     
     VistaAgregar vAgregar;
     
@@ -240,27 +238,26 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btmAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmAgregarActionPerformed
-        
-        //VistaAgregar vAgregar = new VistaAgregar(this);
-        
-        //vAgregar.setVisible(true);
-        //this.setVisible(false);
+        this.setVisible(false);
         
         vAgregar = new VistaAgregar(this);
         vAgregar.setVisible(true);
-
-        
-        
-        
+   
     }//GEN-LAST:event_btmAgregarActionPerformed
 
     private void btmEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmEliminarActionPerformed
-        VistaBorrar eliminar = new VistaBorrar();
+        
+        
+        VistaBorrar eliminar = new VistaBorrar(this);
         eliminar.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btmEliminarActionPerformed
 
     private void btmDatosESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmDatosESActionPerformed
+        
+        vDatosE = new VistaDatosE(this);
         vDatosE.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btmDatosESActionPerformed
 
     private void btmSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmSalirActionPerformed
@@ -285,8 +282,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btmGenerarVentasActionPerformed
 
     private void btmBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmBuscarActionPerformed
-        /*VistaBuscar buscar = new VistaBuscar();
-        buscar.setVisible(true);*/
         String criterio = cmbSelector.getSelectedItem().toString();
         String valor = txtBuscar.getText();
 
@@ -296,9 +291,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btmBuscarActionPerformed
 
     private void btmRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmRegistrarActionPerformed
-        //VistaVenta venta = new VistaVenta();
-        
-        //venta.setVisible(true);
+        this.setVisible(false);
         vistaVenta = new VistaVenta(this, verController);
         vistaVenta.setVisible(true);
     }//GEN-LAST:event_btmRegistrarActionPerformed

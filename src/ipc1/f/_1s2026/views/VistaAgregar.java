@@ -164,6 +164,7 @@ public class VistaAgregar extends javax.swing.JFrame {
     private void btmCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmCerrarActionPerformed
         //viPrincipal.setVisible(true);
         this.setVisible(false);
+        vistaPrincipal.setVisible(true);
     }//GEN-LAST:event_btmCerrarActionPerformed
 
     private void btmAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmAgregarActionPerformed
@@ -175,6 +176,28 @@ public class VistaAgregar extends javax.swing.JFrame {
         int precioNew; // = Integer.parseInt(txtPrecio.getText());
         
         int cantidad;
+        
+        try {
+            nombreNew = txtNombreP.getText().trim();
+            categoriaNew = txtCategoria.getText().trim();
+
+            if (nombreNew.isEmpty() || categoriaNew.isEmpty()) {
+                throw new IllegalArgumentException("Los campos Nombre y Categoría no pueden estar vacíos.");
+            }
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(
+            null,
+            e.getMessage(),
+            "Error",
+            JOptionPane.WARNING_MESSAGE
+            );
+            if (nombreNew.isEmpty()) {
+            txtNombreP.requestFocus();
+            } else {
+                txtCategoria.requestFocus();
+                }
+            return; // Salimos del método para que no se continúe con la agregación
+            }
         
         try{
             precioNew = Integer.parseInt(txtPrecio.getText());
@@ -193,7 +216,7 @@ public class VistaAgregar extends javax.swing.JFrame {
         }catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(
                     null,
-                    "Debe ingresar una cantidad válido",
+                    "Debe ingresar un precio valido",
                     "Error",
                     JOptionPane.ERROR_MESSAGE
                     );
@@ -231,7 +254,6 @@ public class VistaAgregar extends javax.swing.JFrame {
         int codigoNew = SingletonID.getInstancia().generarID();
         
         addControl.AgregarProducto(nombreNew, categoriaNew, precioNew, cantidad, codigoNew);
-        //JOptionPane.showMessageDialog(null,"Producto agregado");
         
         vistaPrincipal.actualizarTabla(addControl.obtenerProductos());
         
@@ -241,13 +263,6 @@ public class VistaAgregar extends javax.swing.JFrame {
         txtPrecio.setText("");
         txtCantidadStock.setText("");
         txtNombreP.requestFocus();
-        
-        //controller.agregarProducto(nombre, categoria, precio, cantidad, codigo);
-
-        //vistaPrincipal.actualizarTabla(addControl.obtenerProductos());
-        
-        
-        
     }//GEN-LAST:event_btmAgregarActionPerformed
 
     /**

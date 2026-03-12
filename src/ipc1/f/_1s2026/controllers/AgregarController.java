@@ -8,11 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -20,17 +20,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AgregarController {
     
-   // Advertencia advertenciaCantidad = new Advertencia();
-    
     public static AgregarModel[] datosAgregar = new AgregarModel[100];
     
     public static int contador = 0;
     
     public void AgregarProducto(String nombre, String categoria, int precio, int cantidad, int codigo){
         //Se anade datos al arreglo
-        
-        //for (int i = 0; i<datosAgregar.length; i++){
-           // if (datosAgregar[i]==null){
+
                 AgregarModel agregar = new AgregarModel();
                 
                 agregar.setNombre(nombre);
@@ -44,8 +40,6 @@ public class AgregarController {
                 System.out.println("Se agrego "+nombre+" de "+categoria+" con precio Q."+precio+" cantidad "+cantidad+" y codigo "+codigo);
                 
                 return;
-            //}
-        //}
     
     }
     
@@ -53,6 +47,18 @@ public class AgregarController {
 
         AgregarModel[] resultados = new AgregarModel[datosAgregar.length];
         int j = 0;
+        
+            // Trim y validación general
+        valor = valor.trim();
+        if(valor.isEmpty()){
+            JOptionPane.showMessageDialog(
+                null,
+                "El campo de búsqueda no puede estar vacío.",
+                "Error",
+                JOptionPane.WARNING_MESSAGE
+            );
+            return resultados; // retorna array vacío
+        }
 
         for(int i = 0; i < datosAgregar.length; i++){
 
@@ -102,68 +108,11 @@ public class AgregarController {
         
     }*/
     
-    public AgregarModel buscarPorCodigo(int codigo){
-
-    for(int i = 0; i < datosAgregar.length; i++){
-
-        if(datosAgregar[i] != null && datosAgregar[i].getCodigo() == codigo){
-            return datosAgregar[i];
-        }
-
-    }
-
-    return null;
-    }
-    
     public AgregarModel[] obtenerProductos(){
         return datosAgregar;
     }
     
-    /*public void buscarProducto(String criterio, String valor){
 
-        boolean encontrado = false;
-
-        for(int i = 0; i < contador; i++){
-
-            AgregarModel p = datosAgregar[i];
-
-            if(p != null){
-
-                if(criterio.equals("Codigo")){
-
-                    if(p.getCodigo() == Integer.parseInt(valor)){
-                        System.out.println(p.getNombre());
-                        encontrado = true;
-                    }
-
-                }
-
-                if(criterio.equals("Nombre")){
-
-                    if(p.getNombre().equalsIgnoreCase(valor)){
-                    System.out.println(p.getNombre());
-                    encontrado = true;
-                    }
-
-                }
-
-                if(criterio.equals("Categoria")){
-
-                    if(p.getCategoria().equalsIgnoreCase(valor)){
-                        System.out.println(p.getNombre());
-                        encontrado = true;
-                    }
-
-                }
-
-            }
-
-        }
-
-        if(!encontrado){
-            System.out.println("Producto no encontrado");
-        }
-}*/ 
        public boolean eliminarProducto(int codigo){
 
          for(int i = 0; i < contador; i++){
@@ -186,8 +135,13 @@ public class AgregarController {
     
     public boolean registrarVenta(int codigo, int cantidad){
         
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm");
-        String fechaVenta = LocalDateTime.now().format(formato);
+        LocalDateTime ahora = LocalDateTime.now();
+        
+        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm:ss");
+        
+        String fechaVenta = ahora.format(formatoFecha);
+        String horaVenta = ahora.format(formatoHora);
 
         for(int i = 0; i < contador; i++){
 
@@ -220,6 +174,7 @@ public class AgregarController {
                         "  |  Cantidad: " + cantidad +
                         "  |  Total: Q." + total +
                         "  |  Fecha: " + fechaVenta +
+                        "  |  Hora: "+ horaVenta +        
                         "\n"
                         );
 

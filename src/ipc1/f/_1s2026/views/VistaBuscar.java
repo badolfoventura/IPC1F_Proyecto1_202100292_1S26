@@ -4,7 +4,6 @@ package ipc1.f._1s2026.views;
 import ipc1.f._1s2026.controllers.AgregarController;
 import ipc1.f._1s2026.models.AgregarModel;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -59,7 +58,7 @@ public void cargarTabla(){
     
     public VistaBuscar() {
         initComponents();
-        //cargarTabla();
+       
         
         
     }
@@ -164,10 +163,10 @@ public void cargarTabla(){
 
     private void btmBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmBusquedaActionPerformed
         AgregarController controlador = new AgregarController();
-        
+    
         String criterio = cmbSelector.getSelectedItem().toString();
-        String valor = txtBusqueda.getText();
-
+        String valor = txtBusqueda.getText().trim(); // eliminamos espacios
+        
         controlador.buscarProducto(criterio, valor);
         
     }//GEN-LAST:event_btmBusquedaActionPerformed
@@ -184,8 +183,6 @@ public void cargarTabla(){
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbSelectorActionPerformed
 
-       /* JOptionPane.showMessageDialog(null,"Producto no encontrado");
-    } */                                          
 
     /**
      * @param args the command line arguments

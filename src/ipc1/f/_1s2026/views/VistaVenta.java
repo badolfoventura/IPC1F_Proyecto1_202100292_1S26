@@ -27,6 +27,10 @@ public class VistaVenta extends javax.swing.JFrame {
         this.controlador = controlador;
     }
 
+    private VistaVenta() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -114,12 +118,12 @@ public class VistaVenta extends javax.swing.JFrame {
 
     private void btmSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmSalirActionPerformed
         this.setVisible(false);
+        
+        vistaPrincipal.setVisible(true);
     }//GEN-LAST:event_btmSalirActionPerformed
 
     private void btmRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmRegistroActionPerformed
-        //AgregarController controlador = new AgregarController();
-        //AgregarController controlador;
-        
+
         int codigo = Integer.parseInt(txtCodigo.getText());
         int cantidad = Integer.parseInt(txtCantidadV.getText());
 
