@@ -2,7 +2,9 @@
 package ipc1.f._1s2026.views;
 
 import ipc1.f._1s2026.controllers.AgregarController;
+import ipc1.f._1s2026.models.AgregarModel;
 import java.io.IOException;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,17 +14,76 @@ public class VistaPrincipal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaPrincipal.class.getName());
     
-    VistaAgregar vAgregar = new VistaAgregar();
+    //VistaAgregar vAgregar = new VistaAgregar();
     
     AgregarController verController = new AgregarController();
     
     VistaDatosE vDatosE = new VistaDatosE();
     
+    VistaAgregar vAgregar;
     
+    VistaVenta vistaVenta;
     
+    public void mostrarResultados(AgregarModel[] resultados){
+
+        DefaultTableModel modelo = (DefaultTableModel) tablaProductos.getModel();
+        modelo.setRowCount(0);
+
+        for(AgregarModel p : resultados){
+
+            if(p != null){
+
+                modelo.addRow(new Object[]{
+                    p.getCodigo(),
+                    p.getNombre(),
+                    p.getCategoria(),
+                    p.getPrecio(),
+                    p.getCantidad()
+                });
+
+            }
+
+        }
+
+    }
+    
+    public void actualizarTabla(AgregarModel[] productos){
+
+        DefaultTableModel modelo = (DefaultTableModel) tablaProductos.getModel();
+        modelo.setRowCount(0); // limpia la tabla
+
+        for(AgregarModel p : productos){
+
+            if(p != null){
+
+                modelo.addRow(new Object[]{
+                    p.getCodigo(),
+                    p.getNombre(),
+                    p.getCategoria(),
+                    p.getPrecio(),
+                    p.getCantidad()
+                });
+
+            }
+
+        }
+
+    }
     
     public VistaPrincipal() {
         initComponents();
+        
+        DefaultTableModel modelo = new DefaultTableModel();
+    
+        modelo.addColumn("Código");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Categoría");
+        modelo.addColumn("Precio");
+        modelo.addColumn("Stock");
+    
+        tablaProductos.setModel(modelo);
+        
+        
     }
 
     /**
@@ -42,8 +103,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btmGenerarStock = new javax.swing.JButton();
         btmDatosES = new javax.swing.JButton();
         btmSalir = new javax.swing.JButton();
-        btmVer = new javax.swing.JButton();
         btmGenerarVentas = new javax.swing.JButton();
+        cmbSelector = new javax.swing.JComboBox<>();
+        txtBuscar = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaProductos = new javax.swing.JTable();
+        txtActualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,80 +125,132 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btmEliminar.addActionListener(this::btmEliminarActionPerformed);
 
         btmRegistrar.setText("Registrar Venta");
+        btmRegistrar.addActionListener(this::btmRegistrarActionPerformed);
 
         btmGenerarStock.setText("Generar Reporte Stock");
         btmGenerarStock.addActionListener(this::btmGenerarStockActionPerformed);
 
-        btmDatosES.setText("Ver Datos Estudiante");
+        btmDatosES.setText("Datos Estudiante");
         btmDatosES.addActionListener(this::btmDatosESActionPerformed);
 
+        btmSalir.setBackground(new java.awt.Color(255, 0, 0));
+        btmSalir.setForeground(new java.awt.Color(255, 255, 255));
         btmSalir.setText("SALIR");
         btmSalir.addActionListener(this::btmSalirActionPerformed);
 
-        btmVer.setText("VER");
-        btmVer.addActionListener(this::btmVerActionPerformed);
-
         btmGenerarVentas.setText("Generar Reporte Ventas");
         btmGenerarVentas.addActionListener(this::btmGenerarVentasActionPerformed);
+
+        cmbSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Nombre", "Categoria" }));
+
+        tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Código", "Nombre", "Categoria", "Precio", "Stock"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaProductos);
+
+        txtActualizar.setText("Actualizar Tabla");
+        txtActualizar.addActionListener(this::txtActualizarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btmSalir)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(249, 249, 249)
-                            .addComponent(jLabel1))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(122, 122, 122)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btmDatosES, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btmGenerarStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btmRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btmEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btmBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btmAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btmGenerarVentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGap(61, 61, 61)
-                            .addComponent(btmVer))))
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cmbSelector, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtBuscar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btmBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btmAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(btmSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btmDatosES, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btmGenerarVentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btmGenerarStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btmEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btmRegistrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGap(0, 0, Short.MAX_VALUE))))))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(274, 274, 274))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btmAgregar, btmBuscar, btmDatosES, btmEliminar, btmGenerarStock, btmGenerarVentas, btmRegistrar, btmSalir});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btmAgregar)
-                    .addComponent(btmVer))
-                .addGap(18, 18, 18)
-                .addComponent(btmBuscar)
-                .addGap(18, 18, 18)
-                .addComponent(btmEliminar)
-                .addGap(18, 18, 18)
-                .addComponent(btmRegistrar)
-                .addGap(18, 18, 18)
-                .addComponent(btmGenerarStock)
-                .addGap(18, 18, 18)
-                .addComponent(btmGenerarVentas)
-                .addGap(18, 18, 18)
+                    .addComponent(btmBuscar)
+                    .addComponent(cmbSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btmSalir)
-                    .addComponent(btmDatosES, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(57, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(btmAgregar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtActualizar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                        .addComponent(btmRegistrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btmEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btmGenerarStock)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btmGenerarVentas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btmDatosES, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btmSalir)))
+                .addGap(29, 29, 29))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btmAgregar, btmBuscar, btmDatosES, btmEliminar, btmGenerarStock, btmGenerarVentas, btmRegistrar, btmSalir});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btmAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmAgregarActionPerformed
         
-        vAgregar.setVisible(true);
+        //VistaAgregar vAgregar = new VistaAgregar(this);
+        
+        //vAgregar.setVisible(true);
         //this.setVisible(false);
+        
+        vAgregar = new VistaAgregar(this);
+        vAgregar.setVisible(true);
+
+        
+        
         
     }//GEN-LAST:event_btmAgregarActionPerformed
 
@@ -141,11 +258,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
         VistaBorrar eliminar = new VistaBorrar();
         eliminar.setVisible(true);
     }//GEN-LAST:event_btmEliminarActionPerformed
-
-    private void btmVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmVerActionPerformed
-        //Para ver matriz 
-        verController.verAgregar();
-    }//GEN-LAST:event_btmVerActionPerformed
 
     private void btmDatosESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmDatosESActionPerformed
         vDatosE.setVisible(true);
@@ -165,13 +277,36 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btmGenerarStockActionPerformed
 
     private void btmGenerarVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmGenerarVentasActionPerformed
-        // TODO add your handling code here:
+        try{
+        verController.generarReporteVentas();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btmGenerarVentasActionPerformed
 
     private void btmBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmBuscarActionPerformed
-       VistaBuscar buscar = new VistaBuscar();
-        buscar.setVisible(true);
+        /*VistaBuscar buscar = new VistaBuscar();
+        buscar.setVisible(true);*/
+        String criterio = cmbSelector.getSelectedItem().toString();
+        String valor = txtBuscar.getText();
+
+        AgregarModel[] resultados = verController.buscarProducto(criterio, valor);
+
+        mostrarResultados(resultados);
     }//GEN-LAST:event_btmBuscarActionPerformed
+
+    private void btmRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmRegistrarActionPerformed
+        //VistaVenta venta = new VistaVenta();
+        
+        //venta.setVisible(true);
+        vistaVenta = new VistaVenta(this, verController);
+        vistaVenta.setVisible(true);
+    }//GEN-LAST:event_btmRegistrarActionPerformed
+
+    private void txtActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtActualizarActionPerformed
+        
+        actualizarTabla(verController.obtenerProductos());
+    }//GEN-LAST:event_txtActualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -207,7 +342,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btmGenerarVentas;
     private javax.swing.JButton btmRegistrar;
     private javax.swing.JButton btmSalir;
-    private javax.swing.JButton btmVer;
+    private javax.swing.JComboBox<String> cmbSelector;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tablaProductos;
+    private javax.swing.JButton txtActualizar;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }
+

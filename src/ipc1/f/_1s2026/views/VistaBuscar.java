@@ -3,6 +3,7 @@ package ipc1.f._1s2026.views;
 
 import ipc1.f._1s2026.controllers.AgregarController;
 import ipc1.f._1s2026.models.AgregarModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -58,7 +59,7 @@ public void cargarTabla(){
     
     public VistaBuscar() {
         initComponents();
-        cargarTabla();
+        //cargarTabla();
         
         
     }
@@ -74,6 +75,7 @@ public void cargarTabla(){
         txtBusqueda = new javax.swing.JTextField();
         btmBusqueda = new javax.swing.JButton();
         btmCerrar = new javax.swing.JButton();
+        cmbSelector = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,6 +105,10 @@ public void cargarTabla(){
         btmCerrar.setText("Cerrar");
         btmCerrar.addActionListener(this::btmCerrarActionPerformed);
 
+        cmbSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Nombre", "Categoria" }));
+        cmbSelector.addItemListener(this::cmbSelectorItemStateChanged);
+        cmbSelector.addActionListener(this::cmbSelectorActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -119,12 +125,14 @@ public void cargarTabla(){
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btmCerrar))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cmbSelector, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btmBusqueda))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 33, Short.MAX_VALUE)))
                 .addGap(26, 26, 26))
         );
@@ -138,7 +146,8 @@ public void cargarTabla(){
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btmBusqueda))
+                    .addComponent(btmBusqueda)
+                    .addComponent(cmbSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -154,29 +163,29 @@ public void cargarTabla(){
     }//GEN-LAST:event_btmCerrarActionPerformed
 
     private void btmBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmBusquedaActionPerformed
-        int codigo = Integer.parseInt(txtBusqueda.getText());
+        AgregarController controlador = new AgregarController();
+        
+        String criterio = cmbSelector.getSelectedItem().toString();
+        String valor = txtBusqueda.getText();
 
-        for(int i = 0; i < AgregarController.contador; i++){
-
-            AgregarModel p = AgregarController.datosAgregar[i];
-            
-
-            if(p.getCodigo() == codigo){
-
-               JOptionPane.showMessageDialog(null,
-                "Nombre: " + p.getNombre() +
-                "\nCategoria: " + p.getCategoria() +
-                "\nPrecio: " + p.getPrecio() +
-                "\nCantidad: " + p.getCantidad()
-                );
-
-             return;
-            }
-
-        }
-
-        JOptionPane.showMessageDialog(null,"Producto no encontrado");
+        controlador.buscarProducto(criterio, valor);
+        
     }//GEN-LAST:event_btmBusquedaActionPerformed
+
+    private void cmbSelectorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbSelectorItemStateChanged
+        JComboBox<String> cmbSelector = new JComboBox<>();
+
+        cmbSelector.addItem("Codigo");
+        cmbSelector.addItem("Nombre");
+        cmbSelector.addItem("Categoria");
+    }//GEN-LAST:event_cmbSelectorItemStateChanged
+
+    private void cmbSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSelectorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbSelectorActionPerformed
+
+       /* JOptionPane.showMessageDialog(null,"Producto no encontrado");
+    } */                                          
 
     /**
      * @param args the command line arguments
@@ -209,6 +218,7 @@ public void cargarTabla(){
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btmBusqueda;
     private javax.swing.JButton btmCerrar;
+    private javax.swing.JComboBox<String> cmbSelector;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

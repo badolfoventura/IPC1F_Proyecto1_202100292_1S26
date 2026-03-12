@@ -14,13 +14,15 @@ public class VistaAgregar extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaAgregar.class.getName());
     
     AgregarController addControl = new AgregarController();
+    VistaPrincipal vistaPrincipal;
     
     
     //VistaPrincipal viPrincipal = new VistaPrincipal();
     
     
-    public VistaAgregar() {
+    public VistaAgregar(VistaPrincipal vp) {
         initComponents();
+        this.vistaPrincipal = vp;
     }
 
     @SuppressWarnings("unchecked")
@@ -165,6 +167,8 @@ public class VistaAgregar extends javax.swing.JFrame {
     }//GEN-LAST:event_btmCerrarActionPerformed
 
     private void btmAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmAgregarActionPerformed
+        
+
         //Obetenemos los datos de los textField
         String nombreNew = this.txtNombreP.getText();
         String categoriaNew = this.txtCategoria.getText();
@@ -227,12 +231,22 @@ public class VistaAgregar extends javax.swing.JFrame {
         int codigoNew = SingletonID.getInstancia().generarID();
         
         addControl.AgregarProducto(nombreNew, categoriaNew, precioNew, cantidad, codigoNew);
+        //JOptionPane.showMessageDialog(null,"Producto agregado");
+        
+        vistaPrincipal.actualizarTabla(addControl.obtenerProductos());
         
         JOptionPane.showMessageDialog(null,"Producto agregado");
         txtNombreP.setText("");
         txtCategoria.setText("");
         txtPrecio.setText("");
         txtCantidadStock.setText("");
+        txtNombreP.requestFocus();
+        
+        //controller.agregarProducto(nombre, categoria, precio, cantidad, codigo);
+
+        //vistaPrincipal.actualizarTabla(addControl.obtenerProductos());
+        
+        
         
     }//GEN-LAST:event_btmAgregarActionPerformed
 
@@ -258,7 +272,7 @@ public class VistaAgregar extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new VistaAgregar().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new VistaAgregar(null).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -279,3 +293,5 @@ public class VistaAgregar extends javax.swing.JFrame {
     private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
 }
+
+

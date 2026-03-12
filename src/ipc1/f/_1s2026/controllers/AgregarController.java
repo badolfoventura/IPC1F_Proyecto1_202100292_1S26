@@ -2,6 +2,9 @@
 package ipc1.f._1s2026.controllers;
 
 import ipc1.f._1s2026.models.AgregarModel;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -9,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -45,7 +49,44 @@ public class AgregarController {
     
     }
     
-    public void verAgregar(){
+    public AgregarModel[] buscarProducto(String criterio, String valor){
+
+        AgregarModel[] resultados = new AgregarModel[datosAgregar.length];
+        int j = 0;
+
+        for(int i = 0; i < datosAgregar.length; i++){
+
+            AgregarModel p = datosAgregar[i];
+
+            if(p != null){
+
+                if(criterio.equals("Codigo") && 
+                p.getCodigo() == Integer.parseInt(valor)){
+
+                    resultados[j++] = p;
+                }
+
+                if(criterio.equals("Nombre") && 
+                p.getNombre().equalsIgnoreCase(valor)){
+
+                    resultados[j++] = p;
+                }
+
+                if(criterio.equals("Categoria") && 
+                p.getCategoria().equalsIgnoreCase(valor)){
+
+                    resultados[j++] = p;
+                }
+
+            }
+
+        }
+
+        return resultados;
+
+    }
+    
+    /*public void verAgregar(){
         for(AgregarModel agregar: datosAgregar){
             
             if (agregar!= null){
@@ -59,7 +100,7 @@ public class AgregarController {
             }
         }
         
-    }
+    }*/
     
     public AgregarModel buscarPorCodigo(int codigo){
 
@@ -72,43 +113,58 @@ public class AgregarController {
     }
 
     return null;
-}
+    }
     
-   /* AgregarController controller = new AgregarController();
-
-AgregarModel producto = controller.buscarPorCodigo(codigo);
-
-if(producto != null){
-
-    txtNombre.setText(producto.getNombre());
-    txtCategoria.setText(producto.getCategoria());
-    txtPrecio.setText(String.valueOf(producto.getPrecio()));
-    txtCantidad.setText(String.valueOf(producto.getCantidad()));
-
-}else{
-
-    JOptionPane.showMessageDialog(null,"Producto no encontrado");
-
-}*/
+    public AgregarModel[] obtenerProductos(){
+        return datosAgregar;
+    }
     
-   /* public void eliminarProducto(int codigo){
+    /*public void buscarProducto(String criterio, String valor){
 
-    for(int i = 0; i < datosAgregar.length; i++){
+        boolean encontrado = false;
 
-        if(datosAgregar[i] != null && datosAgregar[i].getCodigo() == codigo){
+        for(int i = 0; i < contador; i++){
 
-            datosAgregar[i] = null;
-            contador--;
+            AgregarModel p = datosAgregar[i];
 
-            System.out.println("Producto eliminado");
-            return;
+            if(p != null){
+
+                if(criterio.equals("Codigo")){
+
+                    if(p.getCodigo() == Integer.parseInt(valor)){
+                        System.out.println(p.getNombre());
+                        encontrado = true;
+                    }
+
+                }
+
+                if(criterio.equals("Nombre")){
+
+                    if(p.getNombre().equalsIgnoreCase(valor)){
+                    System.out.println(p.getNombre());
+                    encontrado = true;
+                    }
+
+                }
+
+                if(criterio.equals("Categoria")){
+
+                    if(p.getCategoria().equalsIgnoreCase(valor)){
+                        System.out.println(p.getNombre());
+                        encontrado = true;
+                    }
+
+                }
+
+            }
+
         }
 
-    }
-
-}*/
-    
-    public boolean eliminarProducto(int codigo){
+        if(!encontrado){
+            System.out.println("Producto no encontrado");
+        }
+}*/ 
+       public boolean eliminarProducto(int codigo){
 
          for(int i = 0; i < contador; i++){
 
@@ -125,6 +181,59 @@ if(producto != null){
             }
         }
 
+        return false;
+    }
+    
+    public boolean registrarVenta(int codigo, int cantidad){
+        
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm");
+        String fechaVenta = LocalDateTime.now().format(formato);
+
+        for(int i = 0; i < contador; i++){
+
+            if(datosAgregar[i] != null && datosAgregar[i].getCodigo() == codigo){
+
+                // validar stock
+                if(datosAgregar[i].getCantidad() < cantidad){
+                    System.out.println("Stock insuficiente");
+                    return false;
+                }
+
+                // calcular total
+                int precio = datosAgregar[i].getPrecio();
+                int total = precio * cantidad;
+
+                // restar stock
+                datosAgregar[i].setCantidad(
+                datosAgregar[i].getCantidad() - cantidad
+                    );
+
+                // fecha y hora
+                //LocalDateTime fecha = LocalDateTime.now();
+
+                try{
+
+                    FileWriter archivo = new FileWriter("Reporte de ventas.txt", true);
+
+                    archivo.write(
+                        "Codigo: " + codigo +
+                        "  |  Cantidad: " + cantidad +
+                        "  |  Total: Q." + total +
+                        "  |  Fecha: " + fechaVenta +
+                        "\n"
+                        );
+
+                    archivo.close();
+
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+
+                    return true;
+            }
+        }
+
+        System.out.println("Producto no encontrado");
         return false;
     }
     
@@ -172,5 +281,56 @@ if(producto != null){
         Files.write(Paths.get(nombreArchivo), html.getBytes(StandardCharsets.UTF_8));
         System.out.println("Se genero el arhivo.");
     
+    }
+    
+    public void generarReporteVentas() throws IOException{
+
+        BufferedReader lector = new BufferedReader(new FileReader("Reporte de ventas.txt"));
+
+        LocalDateTime ahora = LocalDateTime.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss");
+
+        String nombreArchivo = formato.format(ahora) + "_Venta.html";
+
+        FileWriter archivo = new FileWriter(nombreArchivo);
+
+        archivo.write("<html>");
+        archivo.write("<head><title>Reporte de Ventas</title></head>");
+        archivo.write("<body>");
+
+        archivo.write("<h1>Historial de Ventas</h1>");
+
+        archivo.write("<table border='1'>");
+        archivo.write("<tr>");
+        archivo.write("<th>Codigo</th>");
+        archivo.write("<th>Cantidad</th>");
+        archivo.write("<th>Total</th>");
+        archivo.write("<th>Fecha</th>");
+        archivo.write("</tr>");
+
+        String linea;
+
+        while((linea = lector.readLine()) != null){
+
+            String[] datos = linea.split("\\|");
+
+            archivo.write("<tr>");
+
+            archivo.write("<td>" + datos[0] + "</td>");
+            archivo.write("<td>" + datos[1] + "</td>");
+            archivo.write("<td>" + datos[2] + "</td>");
+            archivo.write("<td>" + datos[3] + "</td>");
+
+            archivo.write("</tr>");
+            }
+
+        archivo.write("</table>");
+        archivo.write("</body>");
+        archivo.write("</html>");
+
+        lector.close();
+        archivo.close();
+
+        System.out.println("Reporte generado: " + nombreArchivo);
     }
 }

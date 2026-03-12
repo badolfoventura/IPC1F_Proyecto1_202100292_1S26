@@ -1,0 +1,5 @@
+Codigo: 2  |  Cantidad: 100  |  Total: Q.20000  |  Fecha: 11_03_2026_23_45
+Codigo: 0  |  Cantidad: 10  |  Total: Q.500  |  Fecha: 12_03_2026_00_11
+Codigo: 0  |  Cantidad: 60  |  Total: Q.3000  |  Fecha: 12_03_2026_00_11
+Codigo: 0  |  Cantidad: 100  |  Total: Q.5000  |  Fecha: 12_03_2026_00_22
+Codigo: 0  |  Cantidad: 10  |  Total: Q.500  |  Fecha: 12_03_2026_00_22
