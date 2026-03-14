@@ -22,7 +22,7 @@ El proyecto consiste en una aplicación desarrollada en **Java** que permite ges
 El sistema permite realizar diferentes operaciones relacionadas con la gestión de productos.  
 Mediante una interfaz gráfica el usuario puede registrar productos, eliminarlos, realizar búsquedas y registrar ventas.
 
-La aplicación fue desarrollada utilizando el lenguaje **Java** y una interfaz gráfica basada en **:contentReference[oaicite:1]{index=1}**.
+La aplicación fue desarrollada utilizando el lenguaje **Java** y una interfaz gráfica.
 
 ---
 
